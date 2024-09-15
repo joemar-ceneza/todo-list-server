@@ -6,6 +6,7 @@ const express = require("express");
 const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 
+// initialize app and prisma client
 const app = express();
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 5000;
@@ -14,6 +15,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// get all the tasks
 app.get("/tasks", async (req, res) => {
   try {
     const tasks = await prisma.task.findMany();
@@ -23,7 +25,7 @@ app.get("/tasks", async (req, res) => {
   }
 });
 
-// Add a new task
+// add a new task
 app.post("/tasks", async (req, res) => {
   const { text } = req.body;
   try {
@@ -38,6 +40,7 @@ app.post("/tasks", async (req, res) => {
   }
 });
 
+// update a task
 app.patch("/tasks/:id", async (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
@@ -52,6 +55,7 @@ app.patch("/tasks/:id", async (req, res) => {
   }
 });
 
+// delete a task
 app.delete("/tasks/:id", async (req, res) => {
   const { id } = req.params;
   try {
